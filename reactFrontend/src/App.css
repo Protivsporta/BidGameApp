@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css?family=Press+Start+2P");
+@import url("https://fonts.googleapis.com/css?family=VT323");
+
+
+
+
+
+.App {
+  text-align: center;
+  font-family: "Press Start 2P", "VT323";
+  color: black;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.insideBox {
+  color: white;
+  margin: 15px;
+  font-size: 12px;
+}
