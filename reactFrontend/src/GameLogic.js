@@ -4,7 +4,7 @@ import { ethers, BigNumber } from 'ethers';
 import BidGame from './BidGame.json';
 import { Box, Button, Flex, Tab, TabList, TabPanels, Tabs, TabPanel, Container, Input, SimpleGrid } from '@chakra-ui/react';
 
-const BidGameAddress = '0x3498970eae8C04b670cfa85019636c55BC1425bf';
+const BidGameAddress = '0x9f540B095EeAB690C356A40178CA597272018F0c';
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
@@ -25,7 +25,9 @@ async function getActualGamesArray() {
     const chunkSize = 4;
     for(let i = 0; i < actualGamesArray.length; i += chunkSize) {
         const chunk = actualGamesArray.slice(i, i + chunkSize);
-        actualGamesList.push(chunk);
+        if (Number(chunk[1]) !== 0) {
+            actualGamesList.push(chunk);
+        }
     }
     repeater1 = actualGamesList.map(i => {
         return(
@@ -44,7 +46,6 @@ async function getActualGamesArray() {
 async function getPastGamesArray() {
     const signerAddress = await signer.getAddress();
     let userGamesArray = await contract.getUserGames(signerAddress);
-    console.log(userGamesArray);
     const chunkSize = 5;
     for(let i = 0; i < userGamesArray.length; i += chunkSize) {
         const chunk = userGamesArray.slice(i, i + chunkSize);

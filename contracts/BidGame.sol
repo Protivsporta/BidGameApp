@@ -146,20 +146,23 @@ contract BidGame {
 
     function getActualGames() public view returns(uint256[] memory) {
         uint256[] memory actualGames = new uint256[]((gameId - lastFinishedGameId) * 4); 
+        uint256 counter;
         for (uint256 _gameId = lastFinishedGameId; _gameId < gameId; _gameId ++) {
-            uint256 counter = _gameId * 4;
-            actualGames[counter] = gamesList[_gameId].bid;
-            actualGames[counter + 1] = gamesList[_gameId].createdTimestamp;
-            actualGames[counter + 2] = gamesList[_gameId].participants.length;
-            actualGames[counter + 3] = _gameId;
+            if (gamesList[_gameId].isFinished == false) {
+                actualGames[counter] = gamesList[_gameId].bid;
+                actualGames[counter + 1] = gamesList[_gameId].createdTimestamp;
+                actualGames[counter + 2] = gamesList[_gameId].participants.length;
+                actualGames[counter + 3] = _gameId;
+                counter += 4;
+            }
         }
         return actualGames;
     } 
 
     function getUserGames(address _user) public view returns(uint256[] memory) {
         uint256[] memory userGames = new uint256[](gamesByUserList[_user].gamesByUser.length * 5);
+        uint256 counter;
         for (uint256 _gameId; _gameId < gamesByUserList[_user].gamesByUser.length; _gameId ++) {
-            uint256 counter = _gameId * 5;
             uint256 currentGameId = gamesByUserList[_user].gamesByUser[_gameId];
             userGames[counter] = gamesList[currentGameId].bid;
             userGames[counter + 1] = gamesList[currentGameId].createdTimestamp;
@@ -174,6 +177,7 @@ contract BidGame {
             } else {
                 userGames[counter + 3] = 0; // the game in progress
             }
+            counter += 5;
         }
         return userGames;
     }
