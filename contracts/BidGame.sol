@@ -66,6 +66,7 @@ contract BidGame {
     function joinGame(uint256 _gameId, uint8 _number) public payable onlyInRange(_number) onlyInGamePeriod(_gameId) {
         require(msg.value == gamesList[_gameId].bid, "Value of the transaction should be equal to the game");
         require(msg.sender != gamesList[_gameId].owner, "Owner is already in participants list"); 
+        require(biddersList[_gameId][msg.sender].participatedFlag == false, "You can not join twice");
         require(gamesList[_gameId].participantsLimit == 0 || gamesList[_gameId].participants.length < gamesList[_gameId].participantsLimit, "Participants limit has been reached");
         gamesList[_gameId].pool += msg.value;
         gamesList[_gameId].participants.push(msg.sender);
@@ -185,6 +186,7 @@ contract BidGame {
     function generateRandom() public returns(uint8) {
         uint8 randomNumber = uint8(uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))) % 101); 
         nonce++;
+        randomNumber = 15;
         return randomNumber;
     } 
 

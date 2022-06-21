@@ -143,6 +143,18 @@ describe("BidGame", function() {
             await expect(bidGame.connect(Tony).joinGame(0, 12, { value: bidAmount }))
             .be.revertedWith("Participants limit has been reached")
         })
+
+        it("Should revert error message because of double joining attempt", async function() {
+            await bidGame.createGame(12, { value: bidAmount });
+
+            await network.provider.send("evm_increaseTime", [timeIncrement]);
+            await network.provider.send("evm_mine");
+
+            await bidGame.connect(Alice).joinGame(0, 55, { value: bidAmount });
+
+            await expect(bidGame.connect(Alice).joinGame(0, 5, { value: bidAmount }))
+            .to.be.revertedWith("You can not join twice")
+        })
     })
 
     describe("Limit participants", function() {

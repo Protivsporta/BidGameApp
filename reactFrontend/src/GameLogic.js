@@ -4,7 +4,7 @@ import { ethers, BigNumber } from 'ethers';
 import BidGame from './BidGame.json';
 import { Box, Button, Flex, Tab, TabList, TabPanels, Tabs, TabPanel, Container, Input, SimpleGrid } from '@chakra-ui/react';
 
-const BidGameAddress = '0x9f540B095EeAB690C356A40178CA597272018F0c';
+const BidGameAddress = '0x05215b12B8f69EfD72E416bCdDD9DF5B0000Fa47';
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
