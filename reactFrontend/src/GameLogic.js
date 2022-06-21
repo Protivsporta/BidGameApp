@@ -30,13 +30,19 @@ async function getActualGamesArray() {
         }
     }
     repeater1 = actualGamesList.map(i => {
+        const currentTimestamp = Math.round(Date.now() / 1000);
+        let timeToFinish = Number(i[1]) + 300 - currentTimestamp;
+        if (timeToFinish < 0) {
+            timeToFinish = 0
+        }
         return(
-            <Box bg = 'lightgray' height='50px' width = '600px' key = {i} borderRadius = '4px'>
+            <Box bg = 'lightgray' height='70px' width = '700px' key = {i} borderRadius = '4px'>
                 <Flex justify = 'space-around'>
                     <Flex className = 'insideBox'>Bid: {ethers.utils.formatEther(i[0])} Eth</Flex>
                     <Flex className = 'insideBox'>Participants: {Number(i[2])}</Flex>
+                    <Flex className = 'insideBox'>Seconds to finish: {timeToFinish}</Flex>
                     <Button margin = '5px' onClick = {() => handleJoin(i[3], i[0])}>Join</Button>
-                    <Input height = '50px' type = 'number' placeholder = 'Your number' size = 'md' id = 'numberInput'></Input>
+                    <Input height = '50px' type = 'number' placeholder = 'Your number' size = 'md' id = 'numberInput' margin = '5px'></Input>
                 </Flex>                
             </Box>
         )
@@ -52,11 +58,17 @@ async function getPastGamesArray() {
         pastGamesList.push(chunk);
     }
     repeater2 = pastGamesList.map(i => {
+        const currentTimestamp = Math.round(Date.now() / 1000);
+        let timeToFinish = Number(i[1]) + 300 - currentTimestamp;
+        if (timeToFinish < 0) {
+            timeToFinish = 0
+        }
         return(
-            <Box bg = 'lightgray' height='50px' width = '600px' key = {i} borderRadius = '4px'>
+            <Box bg = 'lightgray' height='70px' width = '600px' key = {i} borderRadius = '4px'>
                 <Flex justify = 'space-around'>
                     <Flex className = 'insideBox'>Bid: {ethers.utils.formatEther(i[0])} Eth</Flex>
                     <Flex className = 'insideBox'>Participants: {Number(i[2])}</Flex>
+                    <Flex className = 'insideBox'>Seconds to finish: {timeToFinish}</Flex>
                     {Number(i[3]) === 1 &&
                         <Button margin = '5px' onClick = {() => handleClaim(i[4])}>Claim</Button>    
                     }
